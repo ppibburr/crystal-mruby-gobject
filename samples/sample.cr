@@ -2,16 +2,6 @@ require "../src/mruby"
 
 mrb = MRuby::Context.new
 
-class So
-  def a
-    @a
-  end
-  
-  def a=(val)
-    @a=val
-  end
-end
-
 mrb.define_method("add3", LibMRuby::FuncCB.new() {|ctx, mrb_self, _|  
   _mrb, this = MRuby::Context.from_body(ctx, mrb_self)
   args       = _mrb.get_args
