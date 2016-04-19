@@ -53,6 +53,12 @@ module MRuby
     gv.double = v
     return gv.to_unsafe
   end           
+  
+  def self.state(ctx, mrb_self)
+   _mrb, this = MRuby::Context.from_body(ctx, mrb_self)  
+   args = _mrb.get_args
+   return _mrb, this, args
+  end  
 end
 
 class MRuby::Value
@@ -143,8 +149,8 @@ class MRuby::Context
     
     i = 0
     while i < len
-     a << MRuby::Value.new(_ret[i] as LibMRuby::Value*)
-     i+=1
+      a << MRuby::Value.new(_ret[i] as LibMRuby::Value*)
+      i+=1
     end
     
     return a

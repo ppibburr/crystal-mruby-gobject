@@ -2,18 +2,16 @@ require "../src/mruby"
 
 mrb = MRuby::Context.new
 
-mrb.define_method("add3", LibMRuby::FuncCB.new() {|ctx, mrb_self, _|  
-  _mrb, this = MRuby::Context.from_body(ctx, mrb_self)
-  args       = _mrb.get_args
+mrb.define_method("add3", LibMRuby::FuncCB.new() {|ctx, mrb_self, _|
+  _mrb, this, args = MRuby.state(ctx, mrb_self)
   
-  return MRuby.returns(MRuby.fixnum(args[0]) + 3)
+  _mrb.returns(MRuby.fixnum(args[0]) + 3)
 }, nil)
 
 mrb.define_method("concat_bar", LibMRuby::FuncCB.new() {|ctx, mrb_self, _|
-  _mrb, this = MRuby::Context.from_body(ctx, mrb_self)
-  args       = _mrb.get_args
+  _mrb, this, args = MRuby.state(ctx, mrb_self)
   
-  MRuby.returns(MRuby.string(args[0]) + "bar")
+  _mrb.returns(MRuby.string(args[0]) + "bar")
 }, nil)
 
 result = mrb.load_string("
