@@ -150,7 +150,7 @@ class MRuby::Context
     return a
   end
   
-  def returns a
+  def returns(a)
     MRuby.returns a
   end
 end
