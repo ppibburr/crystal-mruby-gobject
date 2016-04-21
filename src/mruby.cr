@@ -1,4 +1,4 @@
-require "./g_object"
+require "../gobject/g_object"
 require "./generated/m_ruby"
 
 

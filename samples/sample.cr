@@ -4,7 +4,7 @@ mrb = MRuby::Context.new
 
 mrb.define_method("add3", LibMRuby::FuncCB.new() {|ctx, mrb_self, _|
   _mrb, this, args = MRuby.state(ctx, mrb_self)
-  
+
   _mrb.returns(MRuby.fixnum(args[0]) + 3)
 }, nil)
 

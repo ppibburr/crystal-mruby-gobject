@@ -1,6 +1,4 @@
 require "./lib_m_rb"
-require "./lib_g_lib"
-require "./lib_g_object"
 
 @[Link("mruby-vala")]
 @[Link("mruby-shared")]
