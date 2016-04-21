@@ -1,4 +1,4 @@
-require "../src/mruby"
+require "./libs/mruby-gobject/mruby"
 
 mrb = MRuby::Context.new
 

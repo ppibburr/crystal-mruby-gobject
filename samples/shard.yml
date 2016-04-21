@@ -1,0 +1,13 @@
+name: mruby-sample
+version: 0.1.0
+
+# authors:
+#   - name <email@example.com>
+
+# description: |
+#   Short description of mruby-sample
+
+dependencies:
+  mruby-gobject:
+    github: ppibburr/crystal-mruby-gobject
+    branch: master
