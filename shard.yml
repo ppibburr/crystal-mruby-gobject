@@ -1,0 +1,10 @@
+name: mruby-gobject
+version: 0.1.0
+authors:
+  - "ppibburr <tulnor33@gmail.com>"
+description: "MRuby bindings for crystal"
+dependencies:
+  gobject:
+    github: jhass/crystal-gobject
+    branch: master
+license: MIT
