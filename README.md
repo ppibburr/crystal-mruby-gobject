@@ -4,7 +4,7 @@ mruby bindings for crystal
 Dependencies
 ===
 * girepository
-[mruby-vala](https://github.com/ppibburr/mruby-vala)
+* [mruby-vala](https://github.com/ppibburr/mruby-vala)
 
 Ubuntu:  
 ---
@@ -21,9 +21,10 @@ sudo make install
 cd ..
 ```
 
-alternatively `mruby-vala` .debs provided here
-[Ubuntu 15.10 amd64](https://github.com/ppibburr/ppibburr.github.com/raw/master/mruby-vala_0.1-1_amd64.deb) 
-[Ubuntu 15.10 x86](https://github.com/ppibburr/ppibburr.github.com/raw/master/mruby-vala_0.1-1_i386.deb)
+alternatively `mruby-vala` .debs provided here  
+
+* [Ubuntu 15.10 amd64](https://github.com/ppibburr/ppibburr.github.com/raw/master/mruby-vala_0.1-1_amd64.deb) 
+* [Ubuntu 15.10 x86](https://github.com/ppibburr/ppibburr.github.com/raw/master/mruby-vala_0.1-1_i386.deb)
 
 
 Clone the repo
