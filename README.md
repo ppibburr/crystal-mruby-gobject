@@ -3,7 +3,7 @@ mruby bindings for crystal
 
 Dependencies
 ===
-* girepository
+* [girepository](http://live.gnome.org/GObjectIntrospection)
 * [mruby-vala](https://github.com/ppibburr/mruby-vala)
 
 Ubuntu:  
