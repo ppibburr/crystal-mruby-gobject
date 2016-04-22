@@ -2,7 +2,9 @@ require "./object"
 
 module MRuby
   class Array < Object
-    def initialize(@m_ruby_array)
+    def initialize(ptr)
+      @m_ruby_array =  ptr as LibMRuby::Value*
+      @ctx = MRuby::Context.new(nil)
     end
 
     def to_unsafe
@@ -52,7 +54,7 @@ module MRuby
     end
 
     def push(foo2, ctx)
-      __return_value = LibMRuby.array_push((to_unsafe as LibMRuby::Array*), (foo2.to_unsafe as LibMRuby::Object*), ctx && (ctx.to_unsafe as LibMRuby::Context*))
+      __return_value = LibMRuby.array_push((to_unsafe as LibMRuby::Array*), (foo2.to_unsafe as LibMRuby::Object*),(ctx.to_unsafe as LibMRuby::Context*))
       __return_value
     end
 
@@ -100,7 +102,14 @@ module MRuby
       __return_value = LibMRuby.array_get_size((to_unsafe as LibMRuby::Array*))
       __return_value
     end
-
+    
+    def [](i)
+      get(i)
+    end
+    
+    def []=(i : Int32, v)
+      set(i, MRuby.value(context, v))
+    end
   end
 end
 

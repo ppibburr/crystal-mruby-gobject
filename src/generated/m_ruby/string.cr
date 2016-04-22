@@ -4,6 +4,7 @@ module MRuby
   class String < Object
     def initialize(m)
       @m_ruby_string = m as LibMRuby::Value*
+      @ctx = MRuby::Context.new(nil)      
     end
 
     def to_unsafe

@@ -2,29 +2,48 @@ require "../gobject/g_object"
 require "./generated/m_ruby"
 
 
-
 lib LibMRuby
   fun get_args = mruby_get_args(ctx : LibMRuby::Context*, len : Int32*) : LibMRuby::Value**
 end
 
 module MRuby
-  def self.float(v)
+  def self.fixnum(mrb : MRuby::Context, v : Int32)
+    _ret = LibMRuby.gval2mrb(mrb.to_unsafe, returns(v))
+    MRuby::Value.new(_ret)
+  end
+
+  def self.float(v : MRuby::Value)
     v.context.to_flo(v)
   end
   
-  def self.string(v : MRuby::Value)
-    v.to_string(v.context)
+  def self.float(mrb : Context, v : Float32)
+    _ret = LibMRuby.gval2mrb(mrb.to_unsafe, returns(v))
+    MRuby::Value.new(_ret)
   end
+  
+  def self.string(v : MRuby::Value)
+    v.to_string()
+  end
+  
+  def self.string(mrb : Context, v : ::String)
+    _ret = LibMRuby.gval2mrb(mrb.to_unsafe, returns(v))
+    MRuby::Value.new(_ret)
+  end  
   
   def self.bool(v : MRuby::Value)
     return v.is_truthy? 
   end
+  
+  def self.bool(mrb : Context, v : ::Bool)
+    _ret = LibMRuby.gval2mrb(mrb.to_unsafe, returns(v))
+    ret = MRuby::Value.new(mrb, _ret)
+  end  
 
   def self.returns(v : MRuby::Value)
     v.to_gval_ptr
   end
   
-  def self.returns(v : Boolean)
+  def self.returns(v : ::Bool)
     gv = GObject::Value.new(GObject::Type::BOOLEAN)
     gv.boolean = v
     return gv.to_unsafe
@@ -44,7 +63,7 @@ module MRuby
 
   def self.returns(v : Float32)
     gv = GObject::Value.new(GObject::Type::FLOAT)
-    gv.boolean = v
+    gv.float = v
     return gv.to_unsafe
   end
   
@@ -58,7 +77,40 @@ module MRuby
    _mrb, this = MRuby::Context.from_body(ctx, mrb_self)  
    args = _mrb.get_args
    return _mrb, this, args
-  end  
+  end
+  
+  def self.value(mrb : MRuby::Context, v : Bool)
+    bool(mrb, v)
+  end
+  
+  def self.value(mrb : MRuby::Context, v : Int32)
+    fixnum(mrb, v)
+  end
+  
+  def self.value(mrb : MRuby::Context, v : Float32)
+    float(mrb, v)
+  end
+
+  def self.value(mrb : MRuby::Context, v : ::String)
+    string(mrb, v)
+  end
+  
+  def self.value(mrb : MRuby::Context, v : Value)
+    v
+  end    
+  
+  def self.value(mrb : MRuby::Context, v : Nil)
+    MRuby.nil_value
+  end          
+  
+  def self.array(mrb : MRuby::Context, *a)
+    ary = MRuby::Array.new_internal(mrb)
+    a.each do |v|
+      ary.push(MRuby.value(mrb, v), mrb)
+    end
+    
+    return ary
+  end   
 end
 
 class MRuby::Value

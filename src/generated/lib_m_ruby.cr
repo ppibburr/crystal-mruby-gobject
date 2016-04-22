@@ -9,31 +9,30 @@ lib LibMRuby
   ###########################################
 
   enum TT : UInt32
-    ZERO_NONE = 0
     FALSE = 0
-    FREE = 0
-    TRUE = 1
-    FIXNUM = 2
-    SYMBOL = 3
-    UNDEF = 4
-    FLOAT = 5
-    CPTR = 6
-    OBJECT = 7
-    CLASS = 8
-    MODULE = 9
-    ICLASS = 10
-    SCLASS = 11
-    PROC = 12
-    ARRAY = 13
-    HASH = 14
-    STRING = 15
-    RANGE = 16
-    EXCEPTION = 17
-    FILE = 18
-    ENV = 19
-    DATA = 20
-    FIBER = 21
-    MAXDEFINE = 22
+    FREE = 1
+    TRUE = 2
+    FIXNUM = 3
+    SYMBOL = 4
+    UNDEF = 5
+    FLOAT = 6
+    CPTR = 7
+    OBJECT = 8
+    CLASS = 9
+    MODULE = 10
+    ICLASS = 11
+    SCLASS = 12
+    PROC = 13
+    ARRAY = 14
+    HASH = 15
+    STRING = 16
+    RANGE = 17
+    EXCEPTION = 18
+    FILE = 19
+    ENV = 20
+    DATA = 21
+    FIBER = 22
+    MAXDEFINE = 23
   end
 
 

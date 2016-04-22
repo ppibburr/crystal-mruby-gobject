@@ -879,7 +879,7 @@ module MRuby
       MRuby::Object.new(__return_value)
     end
 
-    def inspect(obj)
+    def _inspect(obj)
       __return_value = LibMRuby.context_inspect((to_unsafe as LibMRuby::Context*), (obj.to_unsafe as LibMRuby::Value*))
       MRuby::Object.new(__return_value)
     end
