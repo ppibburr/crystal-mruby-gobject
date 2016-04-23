@@ -49,3 +49,4 @@ a3 = MRuby.array(mrb)
 end
 
 pp a3[3].to_string
+pp MRuby[mrb, 1, 2, true, false].to_string

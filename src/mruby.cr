@@ -30,6 +30,10 @@ module MRuby
     MRuby::String.new(_ret)
   end  
   
+  def self.[](mrb, *a)
+    array(mrb, *a)
+  end
+  
   def self.bool(v : MRuby::Value)
     return v.is_truthy? 
   end
