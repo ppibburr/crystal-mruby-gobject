@@ -2,20 +2,9 @@ require "./object"
 
 module MRuby
   class Array < Object
-    def initialize(ptr)
-      @m_ruby_array =  ptr as LibMRuby::Value*
-      @ctx = MRuby::Context.new(nil)
-    end
-
-    def to_unsafe
-      @m_ruby_array.not_nil!
-    end
-
-
-
     def self.new_internal(mrb)
       __return_value = LibMRuby.array_new((mrb.to_unsafe as LibMRuby::Context*))
-      cast MRuby::Array.new(__return_value)
+      cast MRuby::Array.new(__return_value as LibMRuby::Value*)
     end
 
     def self.from(act, c)
@@ -109,6 +98,10 @@ module MRuby
     
     def []=(i : Int32, v)
       set(i, MRuby.value(context, v))
+    end
+    
+    def <<(v)
+      push(MRuby.value(context, v), context)
     end
   end
 end

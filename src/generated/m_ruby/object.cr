@@ -2,15 +2,6 @@ require "./value"
 
 module MRuby
   class Object < Value
-    def initialize(m)
-      @m_ruby_object = m as LibMRuby::Value*
-      @ctx = MRuby::Context.new(nil)
-    end
-
-    def to_unsafe
-      @m_ruby_object.not_nil!
-    end
-
     def self.from(act, mrb)
       __return_value = LibMRuby.object_from(act, mrb && (mrb.to_unsafe as LibMRuby::Context*))
       cast MRuby::Object.new(__return_value)

@@ -1,11 +1,16 @@
 module MRuby
   class Value < GObject::Object
-    def initialize(@m_ruby_value)
+    def initialize( ptr )
+      @m_ruby_value = ptr as  LibMRuby::Value*
       @ctx = nil
     end
     
-    def initialize(@ctx, @m_ruby_value)
+    def initialize(ctx : MRuby::Context, ptr : LibMRuby::Value*)
+      @ctx = ctx
+      @m_ruby_value = ptr
     end    
+
+    private def init; @ctx ||= context end
 
     def to_unsafe
       @m_ruby_value.not_nil!
@@ -22,13 +27,13 @@ module MRuby
     end
     
     def to_string()
-      case MRuby.type(self)
-      when MRuby::TT::TRUE
-        return "true"
-      when MRuby::TT::FALSE
-        return is_nil?() ? "nil" : "false"
-      end
+      v = ""
+      v = "nil" if is_nil?  
+      v = "false" if is_false? && !is_nil?
+      v = "true" if is_true?
       
+      return v if !v.empty?
+          
       to_string(context)
     end
 

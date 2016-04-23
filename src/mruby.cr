@@ -22,12 +22,12 @@ module MRuby
   end
   
   def self.string(v : MRuby::Value)
-    v.to_string()
+    (v as Value).to_string()
   end
   
   def self.string(mrb : Context, v : ::String)
     _ret = LibMRuby.gval2mrb(mrb.to_unsafe, returns(v))
-    MRuby::Value.new(_ret)
+    MRuby::String.new(_ret)
   end  
   
   def self.bool(v : MRuby::Value)
@@ -40,8 +40,12 @@ module MRuby
   end  
 
   def self.returns(v : MRuby::Value)
-    v.to_gval_ptr
+    MRuby.mrb2gval(v.context, v)
   end
+  
+  def self.returns(mrb : MRuby::Context, v : MRuby::Value)
+    MRuby.mrb2gval(mrb, v)
+  end  
   
   def self.returns(v : ::Bool)
     gv = GObject::Value.new(GObject::Type::BOOLEAN)
@@ -79,6 +83,22 @@ module MRuby
    return _mrb, this, args
   end
   
+  def self.upcast(v : MRuby::Value)
+    case MRuby.type(v)
+    when MRuby::TT::ARRAY
+      return v if v.is_a?(MRuby::Array)
+      MRuby::Array.new(v.to_unsafe)
+    when MRuby::TT::STRING
+      return v if v.is_a?(MRuby::String)    
+      MRuby::String.new(v.to_unsafe)
+    when MRuby::TT::OBJECT
+      return v if v.is_a?(MRuby::Object)    
+      MRuby::Object.new(v.to_unsafe)
+    else
+      v
+    end
+  end
+  
   def self.value(mrb : MRuby::Context, v : Bool)
     bool(mrb, v)
   end
@@ -110,7 +130,23 @@ module MRuby
     end
     
     return ary
-  end   
+  end 
+  
+  def self.array(a : MRuby::Value)
+    MRuby::Array.new(a)    
+  end
+  
+  def self.ary2vary(a : MRuby::Array)
+    oa  = [] of MRuby::Value
+    i   = -1
+    len = a.length
+    
+    while i < len
+      oa << a[i+=1]
+    end
+    
+    return oa
+  end
 end
 
 class MRuby::Value
@@ -179,6 +215,10 @@ class MRuby::Value
   
   def is_symbol?
     MRuby.type(self) == MRuby::TT::SYMBOL  
+  end
+  
+  def upcast
+    MRuby.upcast(self)
   end      
 end
 
@@ -188,16 +228,16 @@ class MRuby::Context
   end
   
   def self.from_body(c, s)
-    return MRuby::Context.new(c), MRuby::Object.new(s as LibMRuby::Object*)
+    return MRuby::Context.new(c), MRuby::Object.new(s)
   end
   
   def self.new()
     new_internal()
   end
-  
+
   def get_args()
     _ret = LibMRuby.get_args(to_unsafe, out len)
-    a    = [] of MRuby::Value
+    a    = ::Array(MRuby::Value).new
     
     i = 0
     while i < len
