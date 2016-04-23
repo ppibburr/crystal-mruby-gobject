@@ -137,7 +137,7 @@ module MRuby
   end 
   
   def self.array(a : MRuby::Value)
-    MRuby::Array.new(a)    
+    MRuby::Array.new(a.to_unsafe)    
   end
   
   def self.ary2vary(a : MRuby::Array)

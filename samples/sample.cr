@@ -11,12 +11,30 @@ mrb.define_method("add3", LibMRuby::FuncCB.new() {|ctx, mrb_self, _|
 mrb.define_method("concat_bar", LibMRuby::FuncCB.new() {|ctx, mrb_self, _|
   _mrb, this, args = MRuby.state(ctx, mrb_self)
  
-  _mrb.returns(MRuby.array(_mrb, MRuby.string(args[0]) + "bar", 1, 2, nil, false))
+  _mrb.returns(MRuby.string(args[0]) + "bar")
+}, nil)
+
+mrb.define_method("ret_ary", LibMRuby::FuncCB.new() {|ctx, mrb_self, _|
+  _mrb, this, args = MRuby.state(ctx, mrb_self)
+ 
+  _mrb.returns(MRuby[_mrb, 1, "foo", true, this])
+}, nil)
+
+mrb.define_method("len_ary", LibMRuby::FuncCB.new() {|ctx, mrb_self, _|
+  _mrb, this, args = MRuby.state(ctx, mrb_self)
+ 
+  _mrb.returns(MRuby.array(args[0]).length)
 }, nil)
 
 result = mrb.load_string("
-  puts concat_bar('foo')[2]
-  p add3(3, [1,'foo'])
+  puts concat_bar('foo')
+  p add3(3)
+  
+  a = ret_ary
+  p a
+  p a[2]
+  
+  p len_ary(a)
 ")
 
 puts "\n"
