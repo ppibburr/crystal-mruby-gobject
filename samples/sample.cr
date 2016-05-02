@@ -22,7 +22,7 @@ mrb.define_method("ret_ary", LibMRuby::FuncCB.new() {|ctx, mrb_self, _|
 
 mrb.define_method("len_ary", LibMRuby::FuncCB.new() {|ctx, mrb_self, _|
   _mrb, this, args = MRuby.state(ctx, mrb_self)
- 
+  
   _mrb.returns(MRuby.array(args[0]).length)
 }, nil)
 
@@ -67,4 +67,9 @@ a3 = MRuby.array(mrb)
 end
 
 pp a3[3].to_string
-pp MRuby[mrb, 1, 2, true, false].to_string
+mrb_a = MRuby[mrb, 1, 2, true, false]
+pp mrb_a.to_string
+pp ma_len = mrb_a.length
+mrb_a << 4
+pp mrb_a.length
+pp mrb_a.length == (ma_len+1)

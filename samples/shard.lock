@@ -6,5 +6,5 @@ shards:
 
   mruby-gobject:
     github: ppibburr/crystal-mruby-gobject
-    commit: b6a1456d6ceaf962eb3dd0e70a4f6b16981e7416
+    commit: 5e8cd40fec47fe1f05f5c1fa139eb6227c28577f
 
