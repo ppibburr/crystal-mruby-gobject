@@ -62,14 +62,19 @@ pp a2[5].to_string
 
 
 a3 = MRuby.array(mrb)
+
 [1,2,3,4].each do |i|
   a3 << i
 end
 
 pp a3[3].to_string
+
 mrb_a = MRuby[mrb, 1, 2, true, false]
+
 pp mrb_a.to_string
 pp ma_len = mrb_a.length
+
 mrb_a << 4
+
 pp mrb_a.length
 pp mrb_a.length == (ma_len+1)
